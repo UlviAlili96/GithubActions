@@ -24,7 +24,7 @@ jobs:
         coverage: none
 
     - name: Install dependencies
-      run: composer install --no-progress --no-suggest
+      run: composer install --ignore-platform-reqs
 
     - name: Run tests
       run: php artisan test
