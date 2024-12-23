@@ -24,4 +24,25 @@ jobs:
         coverage: none
 
     - name: Install dependencies
-      run: composer install --ignore-platform-reqs
+      run: |
+          echo "Installing dependencies..."
+          # Check for new composer dependencies
+          if [ -f "composer.lock" ]; then
+            echo "Running composer install..."
+            composer install --no-dev --optimize-autoloader
+          fi
+          # Check for new npm dependencies
+          if [ -f "package-lock.json" ]; then
+            echo "Checking for new npm dependencies..."
+            npm ci
+          fi
+
+    - name: Run migrations
+      run: |
+          echo "Running database migrations..."
+          php artisan migrate --force
+
+    - name: Build assets
+      run: |
+          echo "Building assets..."
+          npm run build
