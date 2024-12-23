@@ -16,31 +16,28 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v3
 
-    - name: Setup PHP
+    - name: Set up PHP
       uses: shivammathur/setup-php@v2
       with:
-        php-version: '8.2'
-        extensions: mbstring, xml, bcmath
-        coverage: none
+        php-version: '8.2' # Change to your PHP version
+        extensions: fileinfo, other-extensions-if-needed
 
-    - name: Install dependencies
+    - name: Install Composer Dependencies
       run: |
-          Write-Host "Installing dependencies..."
-          if (Test-Path "composer.lock") {
-            Write-Host "Running composer install..."
-            composer install --no-dev --optimize-autoloader
-          }
-          if (Test-Path "package-lock.json") {
-            Write-Host "Checking for new npm dependencies..."
-            npm ci
-          }
+        echo "Installing Composer dependencies..."
+        composer install --no-dev --optimize-autoloader
 
-    - name: Run migrations
+    - name: Install Node.js Dependencies
       run: |
-          echo "Running database migrations..."
-          php artisan migrate --force
+        echo "Installing Node.js dependencies..."
+        npm ci
 
-    - name: Build assets
+    - name: Run Migrations
       run: |
-          echo "Building assets..."
-          npm run build
+        echo "Running migrations..."
+        php artisan migrate
+
+    - name: Build Assets
+      run: |
+        echo "Building assets..."
+        npm run build
