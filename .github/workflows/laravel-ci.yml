@@ -25,17 +25,15 @@ jobs:
 
     - name: Install dependencies
       run: |
-          echo "Installing dependencies..."
-          # Check for new composer dependencies
-          if [ -f "composer.lock" ]; then
-            echo "Running composer install..."
+          Write-Host "Installing dependencies..."
+          if (Test-Path "composer.lock") {
+            Write-Host "Running composer install..."
             composer install --no-dev --optimize-autoloader
-          fi
-          # Check for new npm dependencies
-          if [ -f "package-lock.json" ]; then
-            echo "Checking for new npm dependencies..."
+          }
+          if (Test-Path "package-lock.json") {
+            Write-Host "Checking for new npm dependencies..."
             npm ci
-          fi
+          }
 
     - name: Run migrations
       run: |
