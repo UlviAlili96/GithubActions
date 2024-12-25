@@ -19,5 +19,7 @@ jobs:
         php-version: 8.3
 
     - name: Deploy to server
-      run:  ssh root@164.90.209.31 ".scripts/deploy.sh"
+      run:  ssh root@164.90.209.31"
+            cd /var/www/html &&
+            git pull"
 
