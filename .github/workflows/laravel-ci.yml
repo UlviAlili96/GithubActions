@@ -32,22 +32,14 @@ jobs:
     - name: Build NPM Assets
       run: npm run build
 
-    - name: Synchronize Files To Server
-      uses: easingthemes/ssh-deploy@v2.1.5
-      env:
-        SSH_PRIVATE_KEY: ${{ secrets.SSH_KEY }}
-        SOURCE: "."
-        REMOTE_HOST: ${{ secrets.HOST }}
-        REMOTE_USER: ${{ secrets.USERNAME }}
-        TARGET: "/var/www/html"
-
     - name: Run Remote/Artisan Commands
       uses: appleboy/ssh-action@v0.1.6
       with:
-        host: ${{ secrets.VPS_HOST }}
-        username: ${{ secrets.VPS_USER }}
-        key: ${{ secrets.SSH_PRIVATE_KEY }}
+        host: ${{ secrets.HOST }}
+        username: ${{ secrets.USERNAME }}
+        key: ${{ secrets.SSH_KEY }}
         script: |
+          rsync -avz --delete ./ root@164.90.209.31:/var/www/html
           cd /var/www/html
           php artisan migrate --force
           php artisan optimize
