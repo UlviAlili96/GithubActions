@@ -43,5 +43,7 @@ jobs:
           cd /var/www/html
           git pull
           sudo chmod -R 755
+          sudo chmod -R 775 storage bootstrap/cache
+          sudo chown -R www-data:www-data storage bootstrap/cache
           php artisan migrate --force
           php artisan optimize
