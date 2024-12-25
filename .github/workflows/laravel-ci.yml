@@ -41,5 +41,6 @@ jobs:
         script: |
           rsync -avz --delete ./ root@164.90.209.31:/var/www/html
           cd /var/www/html
+          git pull
           php artisan migrate --force
           php artisan optimize
